@@ -1,0 +1,25 @@
+spring:
+  data:
+    cassandra:
+      schema-action: CREATE_IF_NOT_EXISTS
+      request:
+        timeout: 10s
+      connection:
+        connect-timeout: 10s
+        init-query-timeout: 10s
+
+astra:
+  client-id: <your-client-id>
+  client-secret: <your-client-secret>
+  application-token: <your-application-token>
+  cloud-region: <your-cloud-region>
+  database-id: <your-database-id>
+  keyspace: <your-keyspace>
+
+logging:
+  level:
+    root: INFO
+    web: INFO
+    sql: INFO
+    org.springframework: INFO
+    com.therealsainath: INFO
