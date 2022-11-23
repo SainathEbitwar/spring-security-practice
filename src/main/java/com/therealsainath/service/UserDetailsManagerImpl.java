@@ -4,6 +4,7 @@ import com.therealsainath.entity.User;
 import com.therealsainath.repo.UserRepository;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.stereotype.Service;
@@ -16,9 +17,9 @@ public class UserDetailsManagerImpl implements UserDetailsManager {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
-    public UserDetailsManagerImpl(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+    public UserDetailsManagerImpl(UserRepository userRepository) {
         this.userRepository = userRepository;
-        this.passwordEncoder = passwordEncoder;
+        this.passwordEncoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
     }
 
     @Override
