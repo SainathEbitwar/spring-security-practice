@@ -31,7 +31,7 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
                 return new UsernamePasswordAuthenticationToken(authentication.getName(),
                         authentication.getPrincipal(), userDetails.getAuthorities());
             else
-                throw  new BadCredentialsException("Janabe!");
+                throw  new BadCredentialsException("Oops Bad Credentials!");
         }
 
         return null;
