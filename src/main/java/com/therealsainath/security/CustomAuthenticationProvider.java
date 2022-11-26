@@ -28,10 +28,10 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
         UserDetails userDetails = userDetailsManager.loadUserByUsername(authentication.getName());
         if(userDetails != null) {
             if(passwordEncoder.matches(String.valueOf(authentication.getCredentials()), userDetails.getPassword()))
-                return new UsernamePasswordAuthenticationToken(authentication.getName(),
+                return new CustomAuthentication(authentication.getName(),
                         authentication.getPrincipal(), userDetails.getAuthorities());
             else
-                throw  new BadCredentialsException("Oops Bad Credentials!");
+                throw new BadCredentialsException("Oops Bad Credentials!");
         }
 
         return null;
