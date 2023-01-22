@@ -6,37 +6,43 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 
-@Component
 public class CustomAuthFilter extends OncePerRequestFilter {
 
-    private final CustomAuthManager customAuthManager;
 
-    public CustomAuthFilter(CustomAuthManager customAuthManager) {
-        this.customAuthManager = customAuthManager;
+
+    private final String key;
+
+    public CustomAuthFilter(String key) {
+        this.key = key;
     }
 
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
-        String key = String.valueOf(request.getHeader("key"));
 
-        CustomAuthentication customAuthentication = new CustomAuthentication(key, false);
 
-        Authentication authentication = customAuthManager.authenticate(customAuthentication);
-
-        if(authentication.isAuthenticated()) {
-            SecurityContextHolder.getContext().setAuthentication(authentication);
+        if (request.getHeader("x-api-key") == null) {
+            filterChain.doFilter(request, response);
         }
-        else
-            response.setStatus(401);
+        else {
+            String apiKey = request.getHeader("x-api-key");
+            var customAuthManager = new CustomAuthManager(key);
+            var customAuthentication = new CustomAuthentication(apiKey);
+            Authentication authentication = customAuthManager.authenticate(customAuthentication);
+            if(authentication.isAuthenticated()) {
+                SecurityContextHolder.getContext().setAuthentication(authentication);
+            }
+            filterChain.doFilter(request, response);
+        }
 
-        filterChain.doFilter(request, response);
+
+
+
 
     }
 }

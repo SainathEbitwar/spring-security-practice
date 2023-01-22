@@ -8,9 +8,9 @@ import java.util.Collection;
 public class CustomAuthentication implements Authentication {
 
 
-    public CustomAuthentication(String key, boolean isAuthenticated) {
+    public CustomAuthentication(String key) {
         this.key = key;
-        this.isAuthenticated = isAuthenticated;
+        this.isAuthenticated = false;
     }
 
     private String key;
